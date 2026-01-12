@@ -32,7 +32,42 @@ const volEl = document.getElementById('vol');
 const muteEl = document.getElementById('mute');
 const heroActions = document.getElementById('heroPlay');
 
-let tracks = [];
+const tracks = [
+  {
+    id: 1,
+    title: "Ride It",
+    artist: "Regard",
+    album: "Ride It",
+    duration: "3:08",
+    src: "audio/Ride_It.mp3",
+    cover: "images/Ride_It.jpg",
+    addedBy: "You",
+    dateAdded: "2026-01-12"
+  },
+  {
+    id: 2,
+    title: "Si No Estás",
+    artist: "Mafayah & Misero",
+    album: "Si No Estás",
+    duration: "3:21",
+    src: "audio/si-no-estas.mp3",
+    cover: "images/si-no-estas.jpg",
+    addedBy: "You",
+    dateAdded: "2026-01-12"
+  },
+  {
+    id: 3,
+    title: "Blame",
+    artist: "Calvin Harris",
+    album: "I Created Disco",
+    duration: "3:35",
+    src: "audio/blame.mp3",
+    cover: "images/blame.jpg",
+    addedBy: "You",
+    dateAdded: "2026-01-12"
+  }
+];
+
 let currentIndex = -1;
 
 // modal handlers
