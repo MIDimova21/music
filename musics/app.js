@@ -32,7 +32,7 @@ const volEl = document.getElementById('vol');
 const muteEl = document.getElementById('mute');
 const heroActions = document.getElementById('heroPlay');
 
-const tracks = [
+let tracks = [
   {
     id: 1,
     title: "Ride It",
@@ -46,12 +46,12 @@ const tracks = [
   },
   {
     id: 2,
-    title: "Si No Estás",
-    artist: "Mafayah & Misero",
-    album: "Si No Estás",
+    title: "La La La",
+    artist: "Naughty Boy",
+    album: "La La La",
     duration: "3:21",
-    src: "audio/si-no-estas.mp3",
-    cover: "images/si-no-estas.jpg",
+    src: "audio/La_La_La.mp3",
+    cover: "images/la_la_la.jpg",
     addedBy: "You",
     dateAdded: "2026-01-12"
   },
@@ -119,9 +119,32 @@ function renderTracks(){
 function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
 
 async function loadTracks(){
-  tracks = await getAllTracks();
-  // measure durations if missing
-  for (let t of tracks){ if (!t.duration){ t.duration = await measureDuration(t.audioData); const tx = db.transaction(STORE,'readwrite'); tx.objectStore(STORE).put(t); } }
+  const dbTracks = await getAllTracks();
+  if (dbTracks && dbTracks.length){
+    tracks = dbTracks;
+    // normalize and measure durations if missing
+    for (let t of tracks){
+      if (t.audioData == null && t.src) t.audioData = t.src;
+      if (t.coverData == null && t.cover) t.coverData = t.cover;
+      if (!t.created) t.created = Date.now();
+      if (!t.duration && t.audioData){
+        try{
+          t.duration = await measureDuration(t.audioData);
+          const tx = db.transaction(STORE,'readwrite');
+          tx.objectStore(STORE).put(t);
+        }catch(e){ /* ignore */ }
+      }
+    }
+  } else {
+    // No DB tracks - use the in-memory list and normalize fields
+    tracks = tracks.map(t=>({
+      ...t,
+      audioData: t.audioData || t.src || '',
+      coverData: t.coverData || t.cover || '',
+      created: t.created || Date.now()
+    }));
+  }
+
   renderTracks();
   if (tracks.length){ heroCover.src = tracks[0].coverData || 'images/album.jpg'; heroTitle.textContent = tracks[0].title || 'Playlist'; }
 }
