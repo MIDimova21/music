@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CattyBoard - Dark Player</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="left-nav">
+      <div class="nav-top">
+        <div class="brand">CB</div>
+      </div>                                                                                                                                                                                                
+    </aside>
+
+    <main class="main-area">
+      <header class="hero">
+        <div class="hero-cover">
+          <img id="heroCover" src="images/album.jpg" alt="album cover">
+        </div>
+        <div class="hero-info">
+          <div class="hero-sub">Public Playlist</div>
+          <h1 id="heroTitle">CattyBoard Top 100 Single Charts</h1>
+          <div class="hero-actions">
+            <button id="heroPlay" class="btn-ghost">▶ Play</button>
+            <button id="openAdd" class="btn-ghost" title="Add song">＋ Add</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="tracks-area">
+        <table class="tracks-table" aria-label="Track list">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Album</th>
+              <th>Added by</th>
+              <th>Date added</th>
+              <th>⏱</th>
+            </tr>
+          </thead>
+          <tbody id="tracksBody">
+            <!-- rows inserted by JS -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <footer class="player-bar">
+    <div class="player-left">
+      <img id="playerThumb" src="images/album.jpg" alt="thumb">
+      <div class="player-texts">
+        <div id="playerSong">No track</div>
+        <div id="playerArtistText" class="muted">—</div>
+      </div>
+    </div>
+    <div class="player-center">
+      <div class="controls">
+        <button id="prevBtn">⏮</button>
+        <button id="playPause">▶</button>
+        <button id="nextBtn">⏭</button>
+      </div>
+      <div class="progress-row">
+        <span id="curTime">0:00</span>
+        <input id="seek" type="range" min="0" max="100" value="0">
+        <span id="durTime">0:00</span>
+      </div>
+    </div>
+    <div class="player-right">
+      <div class="vol">
+        <button id="mute">🔊</button>
+        <input id="vol" type="range" min="0" max="1" step="0.01" value="1">
+      </div>
+    </div>
+    <audio id="audio"></audio>
+  </footer>
+
+  <!-- Add-song modal -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <h3>Add song</h3>
+      <form id="addForm">
+        <label>Title<input id="fTitle" required></label>
+        <label>Artist<input id="fArtist"></label>
+        <label>Album<input id="fAlbum"></label>
+        <label>Cover<input id="fCover" type="file" accept="image/*"></label>
+        <label>Audio<input id="fAudio" type="file" accept="audio/*" required></label>
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Add</button>
+          <button type="button" id="closeModal" class="btn-ghost">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
